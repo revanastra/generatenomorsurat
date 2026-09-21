@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nomor Surat HIMAKTU ITERA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=JetBrains+Mono:wght@500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1F6; --paper-2:#E6EAF1; --surface:#FFFFFF; --field:#FFFFFF;
+  --ink:#14213D; --muted:#5B6579; --line:#D3DAE6;
+  --blue:#2446A6; --on-blue:#FFFFFF;
+  --stamp:#B4342B; --stamp-bg:#FBEAE8;
+  --ok:#1E7A4C; --ok-bg:#E8F5EE;
+  --mark:#FFE98A;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#0E1524; --paper-2:#131C31; --surface:#16203A; --field:#0F1830;
+    --ink:#E6EBF5; --muted:#9AA6BD; --line:#2A3656;
+    --blue:#8FAAFF; --on-blue:#0E1524;
+    --stamp:#FF8F85; --stamp-bg:#3A1F24;
+    --ok:#6FD3A0; --ok-bg:#12301F;
+    --mark:#5A4E12;
+    color-scheme:dark;
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--paper)}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:400 15px/1.5 'Public Sans',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+.wrap{max-width:1240px;margin:0 auto;padding:22px 20px 56px}
+header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+h1{margin:0;font:700 32px/1.05 'Bricolage Grotesque','Public Sans',system-ui,sans-serif;letter-spacing:-.02em}
+.sub{margin:6px 0 0;color:var(--muted);font-size:14px}
+.who{width:240px;max-width:100%}
+h2{margin:0;font:600 19px/1.2 'Bricolage Grotesque','Public Sans',system-ui,sans-serif;letter-spacing:-.01em}
+
+.grid{display:grid;grid-template-columns:minmax(320px,410px) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px}
+
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:16px}
+.f{min-width:0}
+.f.full{grid-column:1 / -1}
+label{display:block;font-weight:600;font-size:13px;margin-bottom:5px}
+.opt{font-weight:400;color:var(--muted)}
+input,select{width:100%;height:40px;padding:0 10px;border:1px solid var(--line);border-radius:6px;background:var(--field);color:var(--ink);font:inherit;font-size:14px}
+input::placeholder{color:var(--muted);opacity:.85}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.f .hint{margin:5px 0 0}
+
+.strip-wrap{margin-top:18px}
+.strip{display:flex;flex-wrap:wrap;gap:4px 0;padding:14px 12px;border:1.5px solid var(--ink);border-radius:4px;background:var(--paper)}
+.seg{display:flex;flex-direction:column;padding:0 2px;border-radius:3px}
+.seg.hl{background:var(--mark);padding:0 5px}
+.seg .v{font:600 18px/1.3 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;white-space:nowrap}
+.seg .l{font-size:11px;line-height:1.3;color:var(--muted)}
+.seg.hl .l{color:var(--ink)}
+.hint{margin:8px 0 0;font-size:12.5px;color:var(--muted)}
+.hint.warn{color:var(--stamp);font-weight:600}
+
+.btn{height:40px;padding:0 16px;border-radius:6px;border:1px solid transparent;font:600 14px 'Public Sans',system-ui,sans-serif;cursor:pointer}
+.btn.primary{width:100%;margin-top:16px;background:var(--blue);color:var(--on-blue)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+.btn.ghost:hover:not(:disabled){background:var(--paper-2)}
+.btn.small{height:30px;padding:0 10px;font-size:13px;white-space:nowrap}
+.btn.danger{color:var(--stamp)}
+.status{min-height:20px;margin:10px 0 0;font-size:13px;color:var(--muted)}
+.status.error{color:var(--stamp)}
+
+.result{margin-top:14px;padding:14px;border:1.5px solid var(--ok);border-radius:6px;background:var(--ok-bg)}
+.result .rl{margin:0;font-size:13px;font-weight:600;color:var(--ok)}
+.result .rn{margin:4px 0 12px;font:600 17px/1.35 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;overflow-wrap:anywhere;user-select:all}
+
+.reg-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:8px 16px}
+.count{margin:0;font-size:13px;color:var(--muted)}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.ctl select{width:auto;min-width:150px}
+.ctl .search{flex:1 1 200px;min-width:160px}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 14px}
+.tools .hint{margin:0;flex:1 1 260px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
+table{width:100%;border-collapse:collapse;min-width:740px}
+th{text-align:left;font-size:13px;font-weight:600;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);background:var(--paper-2);white-space:nowrap}
+td{padding:12px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px}
+tr:last-child td{border-bottom:0}
+.c-nomor{min-width:250px;max-width:340px}
+.nomor{display:block;font:600 13.5px/1.4 'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+.jn{display:block;margin-top:2px;font-size:12px;color:var(--muted)}
+.c-tgl{white-space:nowrap}
+.perihal{font-weight:500}
+.tujuan{margin-top:2px;font-size:12.5px;color:var(--muted)}
+.c-aksi{white-space:nowrap}
+.c-aksi .btn+.btn{margin-left:6px}
+.is-batal .nomor{text-decoration:line-through;color:var(--muted)}
+.is-batal .perihal{color:var(--muted)}
+.stamp{display:inline-block;margin-top:5px;padding:0 6px;border:1.5px solid var(--stamp);border-radius:3px;color:var(--stamp);font-size:12px;font-weight:700;transform:rotate(-3deg)}
+.empty{padding:34px 16px;text-align:center;color:var(--muted)}
+
+.banner{margin:0 0 16px;padding:12px 14px;border:1px solid var(--stamp);border-radius:6px;background:var(--stamp-bg);color:var(--ink);font-size:14px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sr-copy{position:fixed;top:0;left:0;opacity:0;pointer-events:none}
+.toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);max-width:calc(100% - 32px);padding:10px 14px;border-radius:6px;background:var(--ink);color:var(--paper);font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <h1>Nomor surat</h1>
+      <p class="sub">Departemen Kesekretariatan, HIMAKTU ITERA</p>
+    </div>
+    <div class="who">
+      <label for="nama">Nama kamu</label>
+      <input id="nama" maxlength="80" autocomplete="name" placeholder="Nama lengkap atau panggilan">
+    </div>
+  </header>
+
+  <div id="banner"></div>
+
+  <main class="grid">
+    <section class="panel" aria-labelledby="h-compose">
+      <h2 id="h-compose">Buat nomor baru</h2>
+      <div class="fields">
+        <div class="f full"><label for="keluar">Kode surat keluar</label><select id="keluar"></select></div>
+        <div class="f full"><label for="jenis">Jenis surat</label><select id="jenis"></select></div>
+        <div class="f"><label for="tanggal">Tanggal surat</label><input type="date" id="tanggal"></div>
+        <div class="f"><label for="unit">Unit penerbit</label><input id="unit" value="BPH" maxlength="12" autocomplete="off"></div>
+        <div class="f full">
+          <label for="urutan">Nomor urut</label>
+          <input id="urutan" type="number" inputmode="numeric" min="1" max="9999" step="1">
+          <p class="hint" id="urutanHint"></p>
+        </div>
+        <div class="f full"><label for="perihal">Perihal</label><input id="perihal" maxlength="200" autocomplete="off" placeholder="Contoh: Undangan rapat evaluasi program kerja"></div>
+        <div class="f full"><label for="tujuan">Tujuan surat <span class="opt">(opsional)</span></label><input id="tujuan" maxlength="160" autocomplete="off" placeholder="Contoh: Ketua Program Studi Sains Aktuaria"></div>
+      </div>
+
+      <div class="strip-wrap">
+        <div class="strip" id="strip" aria-label="Pratinjau nomor surat"></div>
+        <p class="hint" id="seqNote"></p>
+      </div>
+
+      <button class="btn primary" id="save" type="button">Simpan ke rekap</button>
+      <p class="status" id="status" role="status"></p>
+      <div id="result" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="h-reg">
+      <div class="reg-head">
+        <h2 id="h-reg">Rekap surat keluar</h2>
+        <p class="count" id="count"></p>
+      </div>
+      <div class="ctl">
+        <select id="fTahun" aria-label="Filter tahun"></select>
+        <select id="fJenis" aria-label="Filter jenis surat"></select>
+        <input class="search" id="fQ" type="search" placeholder="Cari nomor, perihal, atau tujuan" aria-label="Cari surat" autocomplete="off">
+      </div>
+      <div class="tools">
+        <button class="btn ghost small" id="csv" type="button">Unduh CSV</button>
+        <button class="btn ghost small" id="backup" type="button">Cadangkan (JSON)</button>
+        <button class="btn ghost small" id="restore" type="button">Gabungkan dari file</button>
+        <input id="file" type="file" accept=".json,application/json" hidden>
+        <p class="hint">Rekap tersimpan di browser ini saja. Unduh cadangan secara berkala dan gabungkan file dari anggota lain.</p>
+      </div>
+      <div class="tablewrap">
+        <table>
+          <thead><tr>
+            <th scope="col">Nomor</th><th scope="col">Tanggal</th><th scope="col">Perihal</th><th scope="col">Dibuat oleh</th><th scope="col"><span class="sr">Aksi</span></th>
+          </tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+
+var KEY='himaktu-nomor-surat-v1';
+var NAME_KEY='himaktu-nama';
+var JENIS=[
+  ['01','Surat Keputusan','SKep'],['02','Surat Undangan','SU'],['03','Surat Permohonan','SPm'],
+  ['04','Surat Pemberitahuan','SPb'],['05','Surat Peminjaman','SPp'],['06','Surat Pernyataan','SPn'],
+  ['07','Surat Kuasa','SK'],['08','Surat Tugas','ST'],['09','Surat Keterangan','SKet'],
+  ['10','Surat Rekomendasi','SR'],['11','Surat Balasan','SB']
+];
+var KELUAR=[['A','Internal himpunan'],['B','Internal kampus'],['C','Eksternal kampus']];
+var ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+var BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+var MAX_DOCS=5000;
+
+var state={docs:[],storageOk:true,urutanTouched:false,
+  filter:{tahun:String(new Date().getFullYear()),jenis:'',q:''}};
+
+function $(id){return document.getElementById(id);}
+var el={};
+['keluar','jenis','tanggal','unit','urutan','urutanHint','perihal','tujuan','nama','strip','seqNote','save','status','result','fTahun','fJenis','fQ','csv','backup','restore','file','tbody','count','banner','toast'].forEach(function(k){el[k]=$(k);});
+
+function h(tag,attrs){
+  var e=document.createElement(tag);
+  if(attrs){for(var k in attrs){var v=attrs[k];if(v==null||v===false)continue;
+    if(k==='class')e.className=v;
+    else if(k.indexOf('on')===0)e.addEventListener(k.slice(2),v);
+    else e.setAttribute(k,v===true?'':v);}}
+  for(var i=2;i<arguments.length;i++){var kid=arguments[i];
+    if(kid==null||kid===false)continue;
+    e.append(kid.nodeType?kid:document.createTextNode(String(kid)));}
+  return e;
+}
+function pad(n){return String(n).padStart(3,'0');}
+function todayStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function fmtDate(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s||''))return s||'';return (+s.slice(8,10))+' '+BLN[+s.slice(5,7)-1]+' '+s.slice(0,4);}
+function cleanUnit(v){return String(v||'').replace(/[^A-Za-z0-9-]/g,'').toUpperCase()||'BPH';}
+function newId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+
+var toastTimer=0;
+function toast(m){el.toast.textContent=m;el.toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.toast.classList.remove('show');},2800);}
+function banner(m){el.banner.replaceChildren(m?h('p',{class:'banner',role:'alert'},m):'');}
+
+/* ---------- penyimpanan di browser ---------- */
+function load(){
+  try{
+    var raw=localStorage.getItem(KEY);
+    var arr=raw?JSON.parse(raw):[];
+    state.docs=Array.isArray(arr)?arr.map(sanitize).filter(Boolean):[];
+  }catch(e){
+    state.storageOk=false;
+    banner('Browser ini tidak mengizinkan penyimpanan lokal, jadi rekap tidak bisa disimpan. Coba buka di jendela biasa (bukan mode privat).');
+  }
+}
+function persist(){
+  try{localStorage.setItem(KEY,JSON.stringify(state.docs));return true;}
+  catch(e){banner('Rekap gagal disimpan di browser ini. Unduh cadangan sekarang, lalu periksa pengaturan penyimpanan browser.');return false;}
+}
+function sanitize(d){
+  if(!d||typeof d!=='object')return null;
+  var jn=JENIS.filter(function(j){return j[0]===String(d.kodeJenis);})[0];
+  var seq=Math.floor(Number(d.seq)),tahun=Math.floor(Number(d.tahun)),bulan=Math.floor(Number(d.bulan));
+  if(!jn||!(seq>=1)||!(tahun>=2000&&tahun<=2100)||!(bulan>=1&&bulan<=12))return null;
+  var kel=String(d.kodeKeluar);if(!KELUAR.some(function(k){return k[0]===kel;}))return null;
+  var unit=cleanUnit(d.unit);
+  var nomor=buildNomor({kodeKeluar:kel,seq:seq,kodeJenis:jn[0],singkatan:jn[2],unit:unit,bulan:bulan,tahun:tahun});
+  var perihal=String(d.perihal||'').slice(0,200).trim();
+  if(!perihal)return null;
+  return {
+    id:String(d.id||newId()).slice(0,40),nomor:nomor,seq:seq,kodeJenis:jn[0],jenisNama:jn[1],singkatan:jn[2],
+    kodeKeluar:kel,unit:unit,bulan:bulan,tahun:tahun,
+    tanggal:/^\d{4}-\d{2}-\d{2}$/.test(String(d.tanggal))?String(d.tanggal):'',
+    perihal:perihal,tujuan:String(d.tujuan||'').slice(0,160).trim(),
+    oleh:String(d.oleh||'').slice(0,80).trim(),dibuat:String(d.dibuat||'').slice(0,40),batal:d.batal===true
+  };
+}
+
+/* ---------- format nomor ---------- */
+function parts(f){
+  return [
+    {v:f.kodeKeluar,l:'keluar'},
+    {v:(f.seq==null?'...':pad(f.seq))+'.'+f.kodeJenis,l:'urutan.jenis',hl:true},
+    {v:f.singkatan,l:'singkatan'},
+    {v:f.unit,l:'unit'},
+    {v:'HIMAKTU',l:'himpunan'},
+    {v:'ITERA',l:'kampus'},
+    {v:ROMAN[f.bulan-1],l:'bulan'},
+    {v:String(f.tahun),l:'tahun'}
+  ];
+}
+function buildNomor(f){return parts(f).map(function(p){return p.v;}).join('/');}
+
+function readForm(){
+  var jn=JENIS.filter(function(j){return j[0]===el.jenis.value;})[0]||JENIS[1];
+  var t=el.tanggal.value;
+  var ok=/^\d{4}-\d{2}-\d{2}$/.test(t)&&+t.slice(5,7)>=1&&+t.slice(5,7)<=12;
+  var raw=el.urutan.value.trim();
+  var seq=/^\d+$/.test(raw)?parseInt(raw,10):null;
+  if(seq!=null&&(seq<1||seq>9999))seq=null;
+  return {
+    kodeKeluar:el.keluar.value,kodeJenis:jn[0],jenisNama:jn[1],singkatan:jn[2],
+    unit:cleanUnit(el.unit.value),tanggal:t,tanggalOk:ok,
+    bulan:ok?+t.slice(5,7):null,tahun:ok?+t.slice(0,4):null,
+    seq:seq,perihal:el.perihal.value.trim(),tujuan:el.tujuan.value.trim()
+  };
+}
+function maxSeq(tahun,kode){
+  var m=0;
+  state.docs.forEach(function(d){if(d.tahun===tahun&&d.kodeJenis===kode&&d.seq>m)m=d.seq;});
+  return m;
+}
+
+/* ---------- form dan pratinjau ---------- */
+function suggestSeq(){
+  if(state.urutanTouched)return;
+  var f=readForm();
+  el.urutan.value=f.tanggalOk?String(maxSeq(f.tahun,f.kodeJenis)+1):'';
+}
+function renderPreview(){
+  var f=readForm();
+  el.strip.textContent='';
+  el.seqNote.className='hint';
+  if(f.tanggalOk){
+    var m=maxSeq(f.tahun,f.kodeJenis);
+    el.urutanHint.textContent='Saran dari rekap di browser ini: '+pad(m+1)+' ('+f.jenisNama+', '+f.tahun+'). Cek rekap bersama sebelum memakainya.';
+  }else{
+    el.urutanHint.textContent='';
+  }
+  if(!f.tanggalOk){
+    el.strip.append(h('span',{class:'hint'},'Isi tanggal surat untuk melihat nomor.'));
+    el.seqNote.textContent='';
+    return;
+  }
+  if(f.seq==null){
+    el.strip.append(h('span',{class:'hint'},'Isi nomor urut (1 sampai 9999) untuk melihat nomor.'));
+    el.seqNote.textContent='';
+    return;
+  }
+  var list=parts(f);
+  list.forEach(function(p,i){
+    el.strip.append(h('div',{class:'seg'+(p.hl?' hl':'')},
+      h('span',{class:'v'},p.v+(i<list.length-1?'/':'')),
+      h('span',{class:'l'},p.l)));
+  });
+  var nomor=buildNomor(f);
+  var dup=state.docs.filter(function(d){return d.nomor===nomor;})[0];
+  if(dup){
+    el.seqNote.className='hint warn';
+    el.seqNote.textContent='Nomor ini sudah ada di rekap ('+(dup.batal?'dibatalkan':'aktif')+'). Ganti nomor urutnya.';
+  }else if(f.seq>maxSeq(f.tahun,f.kodeJenis)+1){
+    el.seqNote.textContent='Ada nomor yang terlewat sebelum ini. Pastikan memang disengaja.';
+  }else{
+    el.seqNote.textContent='';
+  }
+}
+
+/* ---------- simpan ---------- */
+function fail(m,focusEl){el.status.className='status error';el.status.textContent=m;if(focusEl)focusEl.focus();}
+function save(){
+  var f=readForm(),nama=el.nama.value.trim();
+  el.status.className='status';el.status.textContent='';
+  if(!nama)return fail('Isi nama kamu di pojok kanan atas dulu.',el.nama);
+  if(!f.tanggalOk)return fail('Isi tanggal surat dengan benar.',el.tanggal);
+  if(f.seq==null)return fail('Isi nomor urut dengan angka 1 sampai 9999.',el.urutan);
+  if(!f.perihal)return fail('Isi perihal surat dulu.',el.perihal);
+  if(state.docs.length>=MAX_DOCS)return fail('Rekap sudah penuh ('+MAX_DOCS+' surat). Unduh cadangan, lalu mulai rekap baru.');
+  var nomor=buildNomor(f);
+  if(state.docs.some(function(d){return d.nomor===nomor;}))return fail('Nomor ini sudah ada di rekap. Ganti nomor urutnya.',el.urutan);
+
+  try{localStorage.setItem(NAME_KEY,nama);}catch(e){}
+  var rec={
+    id:newId(),nomor:nomor,seq:f.seq,kodeJenis:f.kodeJenis,jenisNama:f.jenisNama,singkatan:f.singkatan,
+    kodeKeluar:f.kodeKeluar,unit:f.unit,bulan:f.bulan,tahun:f.tahun,tanggal:f.tanggal,
+    perihal:f.perihal,tujuan:f.tujuan,oleh:nama,dibuat:new Date().toISOString(),batal:false
+  };
+  state.docs.push(rec);
+  persist();
+  el.result.replaceChildren(h('div',{class:'result'},
+    h('p',{class:'rl'},'Nomor tersimpan di rekap'),
+    h('p',{class:'rn'},nomor),
+    h('button',{class:'btn ghost small',type:'button',onclick:function(){copy(nomor);}},'Salin nomor')));
+  el.perihal.value='';el.tujuan.value='';
+  state.urutanTouched=false;suggestSeq();
+  renderAll();
+}
+
+/* ---------- salin ---------- */
+async function copy(text){
+  try{await navigator.clipboard.writeText(text);toast('Nomor disalin');return;}catch(e){}
+  try{
+    var ta=h('textarea',{class:'sr-copy',readonly:true,'aria-hidden':'true'});
+    ta.value=text;document.body.append(ta);ta.select();
+    var ok=document.execCommand('copy');ta.remove();
+    if(ok){toast('Nomor disalin');return;}
+  }catch(e){}
+  toast('Tidak bisa menyalin otomatis. Blok nomornya lalu salin manual.');
+}
+
+/* ---------- rekap ---------- */
+function sorted(){
+  return state.docs.slice().sort(function(a,b){return a.dibuat<b.dibuat?1:a.dibuat>b.dibuat?-1:0;});
+}
+function filtered(){
+  var f=state.filter,q=f.q.trim().toLowerCase();
+  return sorted().filter(function(d){
+    if(f.tahun!=='all'&&String(d.tahun)!==f.tahun)return false;
+    if(f.jenis&&d.kodeJenis!==f.jenis)return false;
+    if(q){return [d.nomor,d.perihal,d.tujuan].some(function(s){return String(s||'').toLowerCase().indexOf(q)>-1;});}
+    return true;
+  });
+}
+function renderFilters(){
+  var years=Array.from(new Set(state.docs.map(function(d){return d.tahun;}).concat([new Date().getFullYear()]))).sort(function(a,b){return b-a;});
+  var sigY=years.join(',');
+  if(el.fTahun.dataset.sig!==sigY){
+    el.fTahun.textContent='';
+    el.fTahun.append(h('option',{value:'all'},'Semua tahun'));
+    years.forEach(function(y){el.fTahun.append(h('option',{value:String(y)},String(y)));});
+    el.fTahun.dataset.sig=sigY;
+  }
+  if(state.filter.tahun!=='all'&&years.indexOf(+state.filter.tahun)<0)state.filter.tahun='all';
+  el.fTahun.value=state.filter.tahun;
+
+  var inYear=state.docs.filter(function(d){return state.filter.tahun==='all'||String(d.tahun)===state.filter.tahun;});
+  var counts={};inYear.forEach(function(d){counts[d.kodeJenis]=(counts[d.kodeJenis]||0)+1;});
+  var sigJ=JSON.stringify(counts)+'|'+inYear.length;
+  if(el.fJenis.dataset.sig!==sigJ){
+    el.fJenis.textContent='';
+    el.fJenis.append(h('option',{value:''},'Semua jenis ('+inYear.length+')'));
+    JENIS.forEach(function(j){el.fJenis.append(h('option',{value:j[0]},j[1]+' ('+(counts[j[0]]||0)+')'));});
+    el.fJenis.dataset.sig=sigJ;
+  }
+  el.fJenis.value=state.filter.jenis;
+}
+function nomorEl(n){
+  var s=h('span',{class:'nomor'});
+  var segs=String(n||'').split('/');
+  segs.forEach(function(p,i){
+    s.append(p+(i<segs.length-1?'/':''));
+    if(i<segs.length-1)s.append(document.createElement('wbr'));
+  });
+  return s;
+}
+function armButton(label,armedLabel,onConfirm,cls){
+  var armed=false,timer=0;
+  var b=h('button',{class:'btn ghost small '+(cls||''),type:'button'},label);
+  b.addEventListener('click',function(){
+    if(!armed){armed=true;b.textContent=armedLabel;clearTimeout(timer);timer=setTimeout(function(){armed=false;b.textContent=label;},3500);return;}
+    clearTimeout(timer);onConfirm();
+  });
+  return b;
+}
+function renderTable(){
+  var rows=filtered();
+  el.tbody.textContent='';
+  var nb=rows.filter(function(d){return d.batal;}).length;
+  el.count.textContent=rows.length+' surat'+(nb?', '+nb+' dibatalkan':'');
+  if(!rows.length){
+    var anyFilter=state.filter.q.trim()||state.filter.jenis||state.filter.tahun!=='all';
+    el.tbody.append(h('tr',null,h('td',{class:'empty',colspan:'5'},
+      anyFilter?'Tidak ada surat yang cocok dengan filter ini.':'Belum ada surat. Simpan nomor pertama lewat panel di sebelah kiri.')));
+    return;
+  }
+  rows.forEach(function(d){
+    var actions=h('td',{class:'c-aksi'},
+      h('button',{class:'btn ghost small',type:'button',onclick:function(){copy(d.nomor);}},'Salin'));
+    if(d.batal){
+      actions.append(h('button',{class:'btn ghost small',type:'button',onclick:function(){setBatal(d,false);}},'Aktifkan lagi'));
+    }else{
+      actions.append(armButton('Batalkan','Yakin batalkan?',function(){setBatal(d,true);},'danger'));
+    }
+    actions.append(armButton('Hapus','Yakin hapus?',function(){removeDoc(d);},'danger'));
+    el.tbody.append(h('tr',{class:d.batal?'is-batal':''},
+      h('td',{class:'c-nomor'},nomorEl(d.nomor),h('span',{class:'jn'},d.jenisNama||''),d.batal?h('span',{class:'stamp'},'Batal'):null),
+      h('td',{class:'c-tgl'},fmtDate(d.tanggal)),
+      h('td',null,h('div',{class:'perihal'},d.perihal||''),d.tujuan?h('div',{class:'tujuan'},'Kepada: '+d.tujuan):null),
+      h('td',null,d.oleh||'-'),
+      actions));
+  });
+}
+function setBatal(d,val){
+  state.docs.forEach(function(x){if(x.id===d.id)x.batal=val;});
+  persist();renderAll();
+  toast(val?'Nomor dibatalkan':'Nomor diaktifkan lagi');
+}
+function removeDoc(d){
+  state.docs=state.docs.filter(function(x){return x.id!==d.id;});
+  persist();
+  if(!state.urutanTouched)suggestSeq();
+  renderAll();
+  toast('Surat dihapus dari rekap');
+}
+
+/* ---------- unduh, cadangan, gabung ---------- */
+function download(filename,mime,text){
+  var url=URL.createObjectURL(new Blob([text],{type:mime}));
+  var a=h('a',{href:url,download:filename});
+  document.body.append(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},2000);
+}
+function csvCell(v){
+  var s=String(v==null?'':v);
+  if(/^[=+\-@\t\r]/.test(s))s="'"+s;
+  return '"'+s.replace(/"/g,'""')+'"';
+}
+function exportCsv(){
+  var rows=filtered().slice().reverse();
+  if(!rows.length){toast('Tidak ada surat untuk diunduh');return;}
+  var head=['Nomor','Tanggal surat','Jenis','Perihal','Tujuan','Status','Dibuat oleh','Dicatat pada'];
+  var lines=[head].concat(rows.map(function(r){
+    return [r.nomor,r.tanggal,r.jenisNama,r.perihal,r.tujuan,r.batal?'Dibatalkan':'Aktif',r.oleh,r.dibuat];
+  })).map(function(c){return c.map(csvCell).join(',');});
+  var label=state.filter.tahun==='all'?'semua-tahun':state.filter.tahun;
+  download('rekap-nomor-surat-'+label+'.csv','text/csv;charset=utf-8','\uFEFF'+lines.join('\r\n'));
+}
+function exportBackup(){
+  if(!state.docs.length){toast('Rekap masih kosong');return;}
+  var payload={versi:1,diekspor:new Date().toISOString(),data:state.docs};
+  download('cadangan-nomor-surat-'+todayStr()+'.json','application/json',JSON.stringify(payload,null,2));
+}
+async function importBackup(file){
+  if(!file)return;
+  try{
+    if(file.size>5*1024*1024){toast('File terlalu besar untuk digabung');return;}
+    var json=JSON.parse(await file.text());
+    var arr=Array.isArray(json)?json:(json&&Array.isArray(json.data)?json.data:null);
+    if(!arr){toast('Format file tidak dikenali');return;}
+    var have={};state.docs.forEach(function(d){have[d.nomor]=true;});
+    var added=0,skipped=0;
+    arr.forEach(function(raw){
+      var d=sanitize(raw);
+      if(!d||have[d.nomor]||state.docs.length>=MAX_DOCS){skipped++;return;}
+      d.id=newId();
+      state.docs.push(d);have[d.nomor]=true;added++;
+    });
+    persist();
+    if(!state.urutanTouched)suggestSeq();
+    renderAll();
+    toast(added+' surat ditambahkan, '+skipped+' dilewati (sudah ada atau tidak valid)');
+  }catch(e){
+    toast('File tidak bisa dibaca. Pastikan itu file cadangan JSON dari dashboard ini.');
+  }finally{
+    el.file.value='';
+  }
+}
+
+function renderAll(){renderPreview();renderFilters();renderTable();}
+
+/* ---------- mulai ---------- */
+function init(){
+  KELUAR.forEach(function(k){el.keluar.append(h('option',{value:k[0]},k[0]+'  '+k[1]));});
+  JENIS.forEach(function(j){el.jenis.append(h('option',{value:j[0]},j[0]+'  '+j[1]+' ('+j[2]+')'));});
+  el.keluar.value='B';el.jenis.value='02';el.tanggal.value=todayStr();
+  try{el.nama.value=localStorage.getItem(NAME_KEY)||'';}catch(e){}
+  load();
+  suggestSeq();
+
+  ['keluar'].forEach(function(k){el[k].addEventListener('change',renderPreview);});
+  ['jenis','tanggal'].forEach(function(k){el[k].addEventListener('change',function(){suggestSeq();renderPreview();});});
+  el.unit.addEventListener('input',renderPreview);
+  el.unit.addEventListener('blur',function(){el.unit.value=cleanUnit(el.unit.value);renderPreview();});
+  el.urutan.addEventListener('input',function(){state.urutanTouched=el.urutan.value.trim()!=='';if(!state.urutanTouched)suggestSeq();renderPreview();});
+  el.nama.addEventListener('change',function(){try{localStorage.setItem(NAME_KEY,el.nama.value.trim());}catch(e){}});
+  el.save.addEventListener('click',save);
+  el.perihal.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();save();}});
+
+  el.fTahun.addEventListener('change',function(){state.filter.tahun=el.fTahun.value;renderFilters();renderTable();});
+  el.fJenis.addEventListener('change',function(){state.filter.jenis=el.fJenis.value;renderTable();});
+  el.fQ.addEventListener('input',function(){state.filter.q=el.fQ.value;renderTable();});
+  el.csv.addEventListener('click',exportCsv);
+  el.backup.addEventListener('click',exportBackup);
+  el.restore.addEventListener('click',function(){el.file.click();});
+  el.file.addEventListener('change',function(){importBackup(el.file.files[0]);});
+
+  // rekap ikut berubah kalau dashboard dibuka di beberapa tab
+  window.addEventListener('storage',function(e){if(e.key===KEY){load();if(!state.urutanTouched)suggestSeq();renderAll();}});
+
+  renderAll();
+}
+init();
+})();
+</script>
+</body>
+</html>
