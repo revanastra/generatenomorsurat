@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Nomor Surat HIMAKTU ITERA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +35,8 @@ body{margin:0;background:var(--paper);color:var(--ink);
 header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:22px}
 h1{margin:0;font:700 32px/1.05 'Bricolage Grotesque','Public Sans',system-ui,sans-serif;letter-spacing:-.02em}
 .sub{margin:6px 0 0;color:var(--muted);font-size:14px}
-.who{width:240px;max-width:100%}
+.who-row{display:flex;flex-wrap:wrap;gap:12px}
+.who{width:220px;max-width:100%}
 h2{margin:0;font:600 19px/1.2 'Bricolage Grotesque','Public Sans',system-ui,sans-serif;letter-spacing:-.01em}
 
 .grid{display:grid;grid-template-columns:minmax(320px,410px) minmax(0,1fr);gap:20px;align-items:start}
@@ -51,7 +51,6 @@ label{display:block;font-weight:600;font-size:13px;margin-bottom:5px}
 input,select{width:100%;height:40px;padding:0 10px;border:1px solid var(--line);border-radius:6px;background:var(--field);color:var(--ink);font:inherit;font-size:14px}
 input::placeholder{color:var(--muted);opacity:.85}
 input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
-.f .hint{margin:5px 0 0}
 
 .strip-wrap{margin-top:18px}
 .strip{display:flex;flex-wrap:wrap;gap:4px 0;padding:14px 12px;border:1.5px solid var(--ink);border-radius:4px;background:var(--paper)}
@@ -61,7 +60,6 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid 
 .seg .l{font-size:11px;line-height:1.3;color:var(--muted)}
 .seg.hl .l{color:var(--ink)}
 .hint{margin:8px 0 0;font-size:12.5px;color:var(--muted)}
-.hint.warn{color:var(--stamp);font-weight:600}
 
 .btn{height:40px;padding:0 16px;border-radius:6px;border:1px solid transparent;font:600 14px 'Public Sans',system-ui,sans-serif;cursor:pointer}
 .btn.primary{width:100%;margin-top:16px;background:var(--blue);color:var(--on-blue)}
@@ -82,8 +80,6 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid 
 .ctl{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
 .ctl select{width:auto;min-width:150px}
 .ctl .search{flex:1 1 200px;min-width:160px}
-.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 14px}
-.tools .hint{margin:0;flex:1 1 260px}
 .tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:6px}
 table{width:100%;border-collapse:collapse;min-width:740px}
 th{text-align:left;font-size:13px;font-weight:600;color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--line);background:var(--paper-2);white-space:nowrap}
@@ -117,9 +113,15 @@ tr:last-child td{border-bottom:0}
       <h1>Nomor surat</h1>
       <p class="sub">Departemen Kesekretariatan, HIMAKTU ITERA</p>
     </div>
-    <div class="who">
-      <label for="nama">Nama kamu</label>
-      <input id="nama" maxlength="80" autocomplete="name" placeholder="Nama lengkap atau panggilan">
+    <div class="who-row">
+      <div class="who">
+        <label for="nama">Nama kamu</label>
+        <input id="nama" maxlength="80" autocomplete="name" placeholder="Nama lengkap atau panggilan">
+      </div>
+      <div class="who">
+        <label for="kode">Kode akses</label>
+        <input id="kode" type="password" maxlength="80" autocomplete="off" placeholder="Dari sekretaris">
+      </div>
     </div>
   </header>
 
@@ -133,11 +135,6 @@ tr:last-child td{border-bottom:0}
         <div class="f full"><label for="jenis">Jenis surat</label><select id="jenis"></select></div>
         <div class="f"><label for="tanggal">Tanggal surat</label><input type="date" id="tanggal"></div>
         <div class="f"><label for="unit">Unit penerbit</label><input id="unit" value="BPH" maxlength="12" autocomplete="off"></div>
-        <div class="f full">
-          <label for="urutan">Nomor urut</label>
-          <input id="urutan" type="number" inputmode="numeric" min="1" max="9999" step="1">
-          <p class="hint" id="urutanHint"></p>
-        </div>
         <div class="f full"><label for="perihal">Perihal</label><input id="perihal" maxlength="200" autocomplete="off" placeholder="Contoh: Undangan rapat evaluasi program kerja"></div>
         <div class="f full"><label for="tujuan">Tujuan surat <span class="opt">(opsional)</span></label><input id="tujuan" maxlength="160" autocomplete="off" placeholder="Contoh: Ketua Program Studi Sains Aktuaria"></div>
       </div>
@@ -147,8 +144,8 @@ tr:last-child td{border-bottom:0}
         <p class="hint" id="seqNote"></p>
       </div>
 
-      <button class="btn primary" id="save" type="button">Simpan ke rekap</button>
-      <p class="status" id="status" role="status"></p>
+      <button class="btn primary" id="issue" type="button" disabled>Ambil nomor</button>
+      <p class="status" id="status" role="status">Memuat rekap...</p>
       <div id="result" aria-live="polite"></div>
     </section>
 
@@ -161,13 +158,6 @@ tr:last-child td{border-bottom:0}
         <select id="fTahun" aria-label="Filter tahun"></select>
         <select id="fJenis" aria-label="Filter jenis surat"></select>
         <input class="search" id="fQ" type="search" placeholder="Cari nomor, perihal, atau tujuan" aria-label="Cari surat" autocomplete="off">
-      </div>
-      <div class="tools">
-        <button class="btn ghost small" id="csv" type="button">Unduh CSV</button>
-        <button class="btn ghost small" id="backup" type="button">Cadangkan (JSON)</button>
-        <button class="btn ghost small" id="restore" type="button">Gabungkan dari file</button>
-        <input id="file" type="file" accept=".json,application/json" hidden>
-        <p class="hint">Rekap tersimpan di browser ini saja. Unduh cadangan secara berkala dan gabungkan file dari anggota lain.</p>
       </div>
       <div class="tablewrap">
         <table>
@@ -186,25 +176,26 @@ tr:last-child td{border-bottom:0}
 (function(){
 'use strict';
 
-var KEY='himaktu-nomor-surat-v1';
-var NAME_KEY='himaktu-nama';
+/* Tempel alamat web app Apps Script (berakhiran /exec) di antara tanda kutip. */
+var API_URL='https://script.google.com/macros/s/AKfycbxinpw_QbCyYpW_DZNx77wyvIY773edW3JrQP3MutoF7ALRDoRFF4VXWrgoqNMFSJUD/exec';
+
 var JENIS=[
   ['01','Surat Keputusan','SKep'],['02','Surat Undangan','SU'],['03','Surat Permohonan','SPm'],
   ['04','Surat Pemberitahuan','SPb'],['05','Surat Peminjaman','SPp'],['06','Surat Pernyataan','SPn'],
   ['07','Surat Kuasa','SK'],['08','Surat Tugas','ST'],['09','Surat Keterangan','SKet'],
-  ['10','Surat Rekomendasi','SR'],['11','Surat Balasan','SB']
+  ['10','Surat Rekomendasi','SR'],['11','Surat Balasan','SB'],
+  ['12','Surat MoU','MoU']
 ];
 var KELUAR=[['A','Internal himpunan'],['B','Internal kampus'],['C','Eksternal kampus']];
 var ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 var BLN=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
-var MAX_DOCS=5000;
 
-var state={docs:[],storageOk:true,urutanTouched:false,
+var state={docs:[],loaded:false,busy:false,
   filter:{tahun:String(new Date().getFullYear()),jenis:'',q:''}};
 
 function $(id){return document.getElementById(id);}
 var el={};
-['keluar','jenis','tanggal','unit','urutan','urutanHint','perihal','tujuan','nama','strip','seqNote','save','status','result','fTahun','fJenis','fQ','csv','backup','restore','file','tbody','count','banner','toast'].forEach(function(k){el[k]=$(k);});
+['keluar','jenis','tanggal','unit','perihal','tujuan','nama','kode','strip','seqNote','issue','status','result','fTahun','fJenis','fQ','tbody','count','banner','toast'].forEach(function(k){el[k]=$(k);});
 
 function h(tag,attrs){
   var e=document.createElement(tag);
@@ -221,45 +212,34 @@ function pad(n){return String(n).padStart(3,'0');}
 function todayStr(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function fmtDate(s){if(!/^\d{4}-\d{2}-\d{2}$/.test(s||''))return s||'';return (+s.slice(8,10))+' '+BLN[+s.slice(5,7)-1]+' '+s.slice(0,4);}
 function cleanUnit(v){return String(v||'').replace(/[^A-Za-z0-9-]/g,'').toUpperCase()||'BPH';}
-function newId(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8);}
+function msg(e){
+  if(e&&e.name==='TypeError')return 'Tidak bisa terhubung ke Apps Script. Periksa koneksi dan alamat web app di API_URL.';
+  var m=(e&&e.message)?String(e.message):'';
+  return m.replace(/^Error:\s*/,'')||'Terjadi kesalahan. Coba lagi.';
+}
+
+/* panggilan ke Apps Script (web app) lewat fetch */
+function configured(){return typeof API_URL==='string'&&API_URL.indexOf('https://script.google.com/')===0;}
+async function api(body){
+  body.kode=el.kode.value.trim();
+  var res=await fetch(API_URL,{method:'POST',body:JSON.stringify(body),redirect:'follow'});
+  var json=await res.json();
+  if(!json.ok)throw new Error(json.error||'Permintaan ditolak.');
+  return json;
+}
+function gs(fn,a,b){
+  if(fn==='getData')return api({action:'list'});
+  if(fn==='issueNumber')return api({action:'issue',p:a});
+  if(fn==='setStatus')return api({action:'status',nomor:a,batal:b});
+  return Promise.reject(new Error('Aksi tidak dikenal.'));
+}
 
 var toastTimer=0;
 function toast(m){el.toast.textContent=m;el.toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){el.toast.classList.remove('show');},2800);}
-function banner(m){el.banner.replaceChildren(m?h('p',{class:'banner',role:'alert'},m):'');}
 
-/* ---------- penyimpanan di browser ---------- */
-function load(){
-  try{
-    var raw=localStorage.getItem(KEY);
-    var arr=raw?JSON.parse(raw):[];
-    state.docs=Array.isArray(arr)?arr.map(sanitize).filter(Boolean):[];
-  }catch(e){
-    state.storageOk=false;
-    banner('Browser ini tidak mengizinkan penyimpanan lokal, jadi rekap tidak bisa disimpan. Coba buka di jendela biasa (bukan mode privat).');
-  }
-}
-function persist(){
-  try{localStorage.setItem(KEY,JSON.stringify(state.docs));return true;}
-  catch(e){banner('Rekap gagal disimpan di browser ini. Unduh cadangan sekarang, lalu periksa pengaturan penyimpanan browser.');return false;}
-}
-function sanitize(d){
-  if(!d||typeof d!=='object')return null;
-  var jn=JENIS.filter(function(j){return j[0]===String(d.kodeJenis);})[0];
-  var seq=Math.floor(Number(d.seq)),tahun=Math.floor(Number(d.tahun)),bulan=Math.floor(Number(d.bulan));
-  if(!jn||!(seq>=1)||!(tahun>=2000&&tahun<=2100)||!(bulan>=1&&bulan<=12))return null;
-  var kel=String(d.kodeKeluar);if(!KELUAR.some(function(k){return k[0]===kel;}))return null;
-  var unit=cleanUnit(d.unit);
-  var nomor=buildNomor({kodeKeluar:kel,seq:seq,kodeJenis:jn[0],singkatan:jn[2],unit:unit,bulan:bulan,tahun:tahun});
-  var perihal=String(d.perihal||'').slice(0,200).trim();
-  if(!perihal)return null;
-  return {
-    id:String(d.id||newId()).slice(0,40),nomor:nomor,seq:seq,kodeJenis:jn[0],jenisNama:jn[1],singkatan:jn[2],
-    kodeKeluar:kel,unit:unit,bulan:bulan,tahun:tahun,
-    tanggal:/^\d{4}-\d{2}-\d{2}$/.test(String(d.tanggal))?String(d.tanggal):'',
-    perihal:perihal,tujuan:String(d.tujuan||'').slice(0,160).trim(),
-    oleh:String(d.oleh||'').slice(0,80).trim(),dibuat:String(d.dibuat||'').slice(0,40),batal:d.batal===true
-  };
-}
+/* nama pembuat diingat di browser */
+function loadName(){try{el.nama.value=localStorage.getItem('himaktu_nama')||'';el.kode.value=localStorage.getItem('himaktu_kode')||'';}catch(e){}}
+function saveName(){try{localStorage.setItem('himaktu_nama',el.nama.value.trim());localStorage.setItem('himaktu_kode',el.kode.value.trim());}catch(e){}}
 
 /* ---------- format nomor ---------- */
 function parts(f){
@@ -274,100 +254,75 @@ function parts(f){
     {v:String(f.tahun),l:'tahun'}
   ];
 }
-function buildNomor(f){return parts(f).map(function(p){return p.v;}).join('/');}
-
 function readForm(){
   var jn=JENIS.filter(function(j){return j[0]===el.jenis.value;})[0]||JENIS[1];
   var t=el.tanggal.value;
   var ok=/^\d{4}-\d{2}-\d{2}$/.test(t)&&+t.slice(5,7)>=1&&+t.slice(5,7)<=12;
-  var raw=el.urutan.value.trim();
-  var seq=/^\d+$/.test(raw)?parseInt(raw,10):null;
-  if(seq!=null&&(seq<1||seq>9999))seq=null;
   return {
     kodeKeluar:el.keluar.value,kodeJenis:jn[0],jenisNama:jn[1],singkatan:jn[2],
     unit:cleanUnit(el.unit.value),tanggal:t,tanggalOk:ok,
     bulan:ok?+t.slice(5,7):null,tahun:ok?+t.slice(0,4):null,
-    seq:seq,perihal:el.perihal.value.trim(),tujuan:el.tujuan.value.trim()
+    perihal:el.perihal.value.trim(),tujuan:el.tujuan.value.trim()
   };
 }
-function maxSeq(tahun,kode){
+function nextSeqLocal(tahun,kode){
   var m=0;
   state.docs.forEach(function(d){if(d.tahun===tahun&&d.kodeJenis===kode&&d.seq>m)m=d.seq;});
-  return m;
+  return m+1;
 }
 
-/* ---------- form dan pratinjau ---------- */
-function suggestSeq(){
-  if(state.urutanTouched)return;
-  var f=readForm();
-  el.urutan.value=f.tanggalOk?String(maxSeq(f.tahun,f.kodeJenis)+1):'';
-}
+/* ---------- pratinjau ---------- */
 function renderPreview(){
   var f=readForm();
   el.strip.textContent='';
-  el.seqNote.className='hint';
-  if(f.tanggalOk){
-    var m=maxSeq(f.tahun,f.kodeJenis);
-    el.urutanHint.textContent='Saran dari rekap di browser ini: '+pad(m+1)+' ('+f.jenisNama+', '+f.tahun+'). Cek rekap bersama sebelum memakainya.';
-  }else{
-    el.urutanHint.textContent='';
-  }
   if(!f.tanggalOk){
     el.strip.append(h('span',{class:'hint'},'Isi tanggal surat untuk melihat nomor.'));
     el.seqNote.textContent='';
     return;
   }
-  if(f.seq==null){
-    el.strip.append(h('span',{class:'hint'},'Isi nomor urut (1 sampai 9999) untuk melihat nomor.'));
-    el.seqNote.textContent='';
-    return;
-  }
+  f.seq=state.loaded?nextSeqLocal(f.tahun,f.kodeJenis):null;
   var list=parts(f);
   list.forEach(function(p,i){
     el.strip.append(h('div',{class:'seg'+(p.hl?' hl':'')},
       h('span',{class:'v'},p.v+(i<list.length-1?'/':'')),
       h('span',{class:'l'},p.l)));
   });
-  var nomor=buildNomor(f);
-  var dup=state.docs.filter(function(d){return d.nomor===nomor;})[0];
-  if(dup){
-    el.seqNote.className='hint warn';
-    el.seqNote.textContent='Nomor ini sudah ada di rekap ('+(dup.batal?'dibatalkan':'aktif')+'). Ganti nomor urutnya.';
-  }else if(f.seq>maxSeq(f.tahun,f.kodeJenis)+1){
-    el.seqNote.textContent='Ada nomor yang terlewat sebelum ini. Pastikan memang disengaja.';
-  }else{
-    el.seqNote.textContent='';
-  }
+  el.seqNote.textContent=(state.loaded?'Urutan '+pad(f.seq)+' untuk '+f.jenisNama+' tahun '+f.tahun+'. ':'')+
+    'Nomor final ditetapkan saat kamu menekan Ambil nomor.';
 }
 
-/* ---------- simpan ---------- */
-function fail(m,focusEl){el.status.className='status error';el.status.textContent=m;if(focusEl)focusEl.focus();}
-function save(){
-  var f=readForm(),nama=el.nama.value.trim();
-  el.status.className='status';el.status.textContent='';
-  if(!nama)return fail('Isi nama kamu di pojok kanan atas dulu.',el.nama);
-  if(!f.tanggalOk)return fail('Isi tanggal surat dengan benar.',el.tanggal);
-  if(f.seq==null)return fail('Isi nomor urut dengan angka 1 sampai 9999.',el.urutan);
-  if(!f.perihal)return fail('Isi perihal surat dulu.',el.perihal);
-  if(state.docs.length>=MAX_DOCS)return fail('Rekap sudah penuh ('+MAX_DOCS+' surat). Unduh cadangan, lalu mulai rekap baru.');
-  var nomor=buildNomor(f);
-  if(state.docs.some(function(d){return d.nomor===nomor;}))return fail('Nomor ini sudah ada di rekap. Ganti nomor urutnya.',el.urutan);
-
-  try{localStorage.setItem(NAME_KEY,nama);}catch(e){}
-  var rec={
-    id:newId(),nomor:nomor,seq:f.seq,kodeJenis:f.kodeJenis,jenisNama:f.jenisNama,singkatan:f.singkatan,
-    kodeKeluar:f.kodeKeluar,unit:f.unit,bulan:f.bulan,tahun:f.tahun,tanggal:f.tanggal,
-    perihal:f.perihal,tujuan:f.tujuan,oleh:nama,dibuat:new Date().toISOString(),batal:false
-  };
-  state.docs.push(rec);
-  persist();
-  el.result.replaceChildren(h('div',{class:'result'},
-    h('p',{class:'rl'},'Nomor tersimpan di rekap'),
-    h('p',{class:'rn'},nomor),
-    h('button',{class:'btn ghost small',type:'button',onclick:function(){copy(nomor);}},'Salin nomor')));
-  el.perihal.value='';el.tujuan.value='';
-  state.urutanTouched=false;suggestSeq();
-  renderAll();
+/* ---------- ambil nomor ---------- */
+async function issue(){
+  if(state.busy)return;
+  var f=readForm();
+  var nama=el.nama.value.trim();
+  el.status.className='status';
+  if(!configured()){el.status.className='status error';el.status.textContent='Alamat web app Apps Script belum diisi di index.html (API_URL).';return;}
+  if(!nama){el.status.className='status error';el.status.textContent='Isi nama kamu di pojok kanan atas dulu.';el.nama.focus();return;}
+  if(!el.kode.value.trim()){el.status.className='status error';el.status.textContent='Isi kode akses di pojok kanan atas dulu.';el.kode.focus();return;}
+  if(!f.tanggalOk){el.status.className='status error';el.status.textContent='Isi tanggal surat dengan benar.';el.tanggal.focus();return;}
+  if(!f.perihal){el.status.className='status error';el.status.textContent='Isi perihal surat dulu.';el.perihal.focus();return;}
+  saveName();
+  state.busy=true;syncButton();
+  el.status.textContent='Mengambil nomor...';
+  try{
+    var rec=await gs('issueNumber',{
+      kodeKeluar:f.kodeKeluar,kodeJenis:f.kodeJenis,tanggal:f.tanggal,unit:f.unit,
+      perihal:f.perihal,tujuan:f.tujuan,oleh:nama
+    });
+    el.status.textContent='';
+    el.result.replaceChildren(h('div',{class:'result'},
+      h('p',{class:'rl'},'Nomor diambil dan tercatat di rekap'),
+      h('p',{class:'rn'},rec.nomor),
+      h('button',{class:'btn ghost small',type:'button',onclick:function(){copy(rec.nomor);}},'Salin nomor')));
+    el.perihal.value='';el.tujuan.value='';
+    await refresh(true);
+  }catch(e){
+    el.status.className='status error';
+    el.status.textContent=msg(e);
+  }finally{
+    state.busy=false;syncButton();
+  }
 }
 
 /* ---------- salin ---------- */
@@ -383,20 +338,18 @@ async function copy(text){
 }
 
 /* ---------- rekap ---------- */
-function sorted(){
-  return state.docs.slice().sort(function(a,b){return a.dibuat<b.dibuat?1:a.dibuat>b.dibuat?-1:0;});
-}
 function filtered(){
   var f=state.filter,q=f.q.trim().toLowerCase();
-  return sorted().filter(function(d){
+  return state.docs.filter(function(d){
     if(f.tahun!=='all'&&String(d.tahun)!==f.tahun)return false;
     if(f.jenis&&d.kodeJenis!==f.jenis)return false;
     if(q){return [d.nomor,d.perihal,d.tujuan].some(function(s){return String(s||'').toLowerCase().indexOf(q)>-1;});}
     return true;
   });
 }
+
 function renderFilters(){
-  var years=Array.from(new Set(state.docs.map(function(d){return d.tahun;}).concat([new Date().getFullYear()]))).sort(function(a,b){return b-a;});
+  var years=Array.from(new Set(state.docs.map(function(d){return d.tahun;}).filter(function(y){return y>0;}).concat([new Date().getFullYear()]))).sort(function(a,b){return b-a;});
   var sigY=years.join(',');
   if(el.fTahun.dataset.sig!==sigY){
     el.fTahun.textContent='';
@@ -404,7 +357,6 @@ function renderFilters(){
     years.forEach(function(y){el.fTahun.append(h('option',{value:String(y)},String(y)));});
     el.fTahun.dataset.sig=sigY;
   }
-  if(state.filter.tahun!=='all'&&years.indexOf(+state.filter.tahun)<0)state.filter.tahun='all';
   el.fTahun.value=state.filter.tahun;
 
   var inYear=state.docs.filter(function(d){return state.filter.tahun==='all'||String(d.tahun)===state.filter.tahun;});
@@ -418,6 +370,7 @@ function renderFilters(){
   }
   el.fJenis.value=state.filter.jenis;
 }
+
 function nomorEl(n){
   var s=h('span',{class:'nomor'});
   var segs=String(n||'').split('/');
@@ -427,24 +380,21 @@ function nomorEl(n){
   });
   return s;
 }
-function armButton(label,armedLabel,onConfirm,cls){
-  var armed=false,timer=0;
-  var b=h('button',{class:'btn ghost small '+(cls||''),type:'button'},label);
-  b.addEventListener('click',function(){
-    if(!armed){armed=true;b.textContent=armedLabel;clearTimeout(timer);timer=setTimeout(function(){armed=false;b.textContent=label;},3500);return;}
-    clearTimeout(timer);onConfirm();
-  });
-  return b;
-}
+
 function renderTable(){
   var rows=filtered();
   el.tbody.textContent='';
   var nb=rows.filter(function(d){return d.batal;}).length;
-  el.count.textContent=rows.length+' surat'+(nb?', '+nb+' dibatalkan':'');
+  el.count.textContent=state.loaded?(rows.length+' surat'+(nb?', '+nb+' dibatalkan':'')):'';
+
+  if(!state.loaded){
+    el.tbody.append(h('tr',null,h('td',{class:'empty',colspan:'5'},'Menunggu kode akses dan data rekap...')));
+    return;
+  }
   if(!rows.length){
     var anyFilter=state.filter.q.trim()||state.filter.jenis||state.filter.tahun!=='all';
     el.tbody.append(h('tr',null,h('td',{class:'empty',colspan:'5'},
-      anyFilter?'Tidak ada surat yang cocok dengan filter ini.':'Belum ada surat. Simpan nomor pertama lewat panel di sebelah kiri.')));
+      anyFilter?'Tidak ada surat yang cocok dengan filter ini.':'Belum ada surat. Ambil nomor pertama lewat panel di sebelah kiri.')));
     return;
   }
   rows.forEach(function(d){
@@ -453,117 +403,93 @@ function renderTable(){
     if(d.batal){
       actions.append(h('button',{class:'btn ghost small',type:'button',onclick:function(){setBatal(d,false);}},'Aktifkan lagi'));
     }else{
-      actions.append(armButton('Batalkan','Yakin batalkan?',function(){setBatal(d,true);},'danger'));
+      var armed=false,timer=0;
+      var b=h('button',{class:'btn ghost small danger',type:'button'},'Batalkan');
+      b.addEventListener('click',function(){
+        if(!armed){armed=true;b.textContent='Yakin batalkan?';clearTimeout(timer);timer=setTimeout(function(){armed=false;b.textContent='Batalkan';},3500);return;}
+        clearTimeout(timer);setBatal(d,true);
+      });
+      actions.append(b);
     }
-    actions.append(armButton('Hapus','Yakin hapus?',function(){removeDoc(d);},'danger'));
     el.tbody.append(h('tr',{class:d.batal?'is-batal':''},
-      h('td',{class:'c-nomor'},nomorEl(d.nomor),h('span',{class:'jn'},d.jenisNama||''),d.batal?h('span',{class:'stamp'},'Batal'):null),
+      h('td',{class:'c-nomor'},nomorEl(d.nomor),h('span',{class:'jn'},d.jenis||''),d.batal?h('span',{class:'stamp'},'Batal'):null),
       h('td',{class:'c-tgl'},fmtDate(d.tanggal)),
       h('td',null,h('div',{class:'perihal'},d.perihal||''),d.tujuan?h('div',{class:'tujuan'},'Kepada: '+d.tujuan):null),
       h('td',null,d.oleh||'-'),
       actions));
   });
 }
-function setBatal(d,val){
-  state.docs.forEach(function(x){if(x.id===d.id)x.batal=val;});
-  persist();renderAll();
-  toast(val?'Nomor dibatalkan':'Nomor diaktifkan lagi');
-}
-function removeDoc(d){
-  state.docs=state.docs.filter(function(x){return x.id!==d.id;});
-  persist();
-  if(!state.urutanTouched)suggestSeq();
-  renderAll();
-  toast('Surat dihapus dari rekap');
+
+async function setBatal(d,val){
+  try{
+    await gs('setStatus',d.nomor,val);
+    toast(val?'Nomor dibatalkan':'Nomor diaktifkan lagi');
+    await refresh(true);
+  }catch(e){toast(msg(e));}
 }
 
-/* ---------- unduh, cadangan, gabung ---------- */
-function download(filename,mime,text){
-  var url=URL.createObjectURL(new Blob([text],{type:mime}));
-  var a=h('a',{href:url,download:filename});
-  document.body.append(a);a.click();a.remove();
-  setTimeout(function(){URL.revokeObjectURL(url);},2000);
-}
-function csvCell(v){
-  var s=String(v==null?'':v);
-  if(/^[=+\-@\t\r]/.test(s))s="'"+s;
-  return '"'+s.replace(/"/g,'""')+'"';
-}
-function exportCsv(){
-  var rows=filtered().slice().reverse();
-  if(!rows.length){toast('Tidak ada surat untuk diunduh');return;}
-  var head=['Nomor','Tanggal surat','Jenis','Perihal','Tujuan','Status','Dibuat oleh','Dicatat pada'];
-  var lines=[head].concat(rows.map(function(r){
-    return [r.nomor,r.tanggal,r.jenisNama,r.perihal,r.tujuan,r.batal?'Dibatalkan':'Aktif',r.oleh,r.dibuat];
-  })).map(function(c){return c.map(csvCell).join(',');});
-  var label=state.filter.tahun==='all'?'semua-tahun':state.filter.tahun;
-  download('rekap-nomor-surat-'+label+'.csv','text/csv;charset=utf-8','\uFEFF'+lines.join('\r\n'));
-}
-function exportBackup(){
-  if(!state.docs.length){toast('Rekap masih kosong');return;}
-  var payload={versi:1,diekspor:new Date().toISOString(),data:state.docs};
-  download('cadangan-nomor-surat-'+todayStr()+'.json','application/json',JSON.stringify(payload,null,2));
-}
-async function importBackup(file){
-  if(!file)return;
+/* ---------- muat data ---------- */
+function banner(m){el.banner.replaceChildren(m?h('p',{class:'banner',role:'alert'},m):'');}
+
+async function refresh(silent){
+  if(!configured()){
+    banner('Alamat web app Apps Script belum diisi. Buka index.html, cari API_URL di bagian script, lalu tempel alamat web app (berakhiran /exec).');
+    return;
+  }
+  if(!el.kode.value.trim()){
+    el.status.className='status';el.status.dataset.k='load';
+    el.status.textContent='Isi kode akses di pojok kanan atas untuk memuat rekap.';
+    return;
+  }
   try{
-    if(file.size>5*1024*1024){toast('File terlalu besar untuk digabung');return;}
-    var json=JSON.parse(await file.text());
-    var arr=Array.isArray(json)?json:(json&&Array.isArray(json.data)?json.data:null);
-    if(!arr){toast('Format file tidak dikenali');return;}
-    var have={};state.docs.forEach(function(d){have[d.nomor]=true;});
-    var added=0,skipped=0;
-    arr.forEach(function(raw){
-      var d=sanitize(raw);
-      if(!d||have[d.nomor]||state.docs.length>=MAX_DOCS){skipped++;return;}
-      d.id=newId();
-      state.docs.push(d);have[d.nomor]=true;added++;
-    });
-    persist();
-    if(!state.urutanTouched)suggestSeq();
+    var data=await gs('getData');
+    state.docs=data.rows.slice().sort(function(a,b){return a.dicatat<b.dicatat?1:a.dicatat>b.dicatat?-1:0;});
+    state.loaded=true;
+    banner('');
+    if(!state.busy&&el.status.dataset.k==='load'){el.status.className='status';el.status.textContent='';el.status.dataset.k='';}
     renderAll();
-    toast(added+' surat ditambahkan, '+skipped+' dilewati (sudah ada atau tidak valid)');
   }catch(e){
-    toast('File tidak bisa dibaca. Pastikan itu file cadangan JSON dari dashboard ini.');
-  }finally{
-    el.file.value='';
+    if(!silent||!state.loaded){
+      banner('Tidak bisa memuat rekap. '+msg(e));
+      el.status.className='status error';
+      el.status.textContent='';
+    }
   }
 }
 
-function renderAll(){renderPreview();renderFilters();renderTable();}
+function syncButton(){
+  el.issue.disabled=!(state.loaded&&!state.busy);
+  el.issue.textContent=state.busy?'Mengambil nomor...':'Ambil nomor';
+}
+function renderAll(){renderPreview();renderFilters();renderTable();syncButton();}
 
 /* ---------- mulai ---------- */
-function init(){
+function setup(){
   KELUAR.forEach(function(k){el.keluar.append(h('option',{value:k[0]},k[0]+'  '+k[1]));});
   JENIS.forEach(function(j){el.jenis.append(h('option',{value:j[0]},j[0]+'  '+j[1]+' ('+j[2]+')'));});
   el.keluar.value='B';el.jenis.value='02';el.tanggal.value=todayStr();
-  try{el.nama.value=localStorage.getItem(NAME_KEY)||'';}catch(e){}
-  load();
-  suggestSeq();
+  loadName();
 
-  ['keluar'].forEach(function(k){el[k].addEventListener('change',renderPreview);});
-  ['jenis','tanggal'].forEach(function(k){el[k].addEventListener('change',function(){suggestSeq();renderPreview();});});
+  ['keluar','jenis','tanggal'].forEach(function(k){el[k].addEventListener('change',renderPreview);});
   el.unit.addEventListener('input',renderPreview);
   el.unit.addEventListener('blur',function(){el.unit.value=cleanUnit(el.unit.value);renderPreview();});
-  el.urutan.addEventListener('input',function(){state.urutanTouched=el.urutan.value.trim()!=='';if(!state.urutanTouched)suggestSeq();renderPreview();});
-  el.nama.addEventListener('change',function(){try{localStorage.setItem(NAME_KEY,el.nama.value.trim());}catch(e){}});
-  el.save.addEventListener('click',save);
-  el.perihal.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();save();}});
+  el.nama.addEventListener('change',saveName);
+  el.kode.addEventListener('change',function(){saveName();refresh(false);});
+  el.status.dataset.k='load';
+  el.issue.addEventListener('click',issue);
+  el.perihal.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();issue();}});
 
   el.fTahun.addEventListener('change',function(){state.filter.tahun=el.fTahun.value;renderFilters();renderTable();});
   el.fJenis.addEventListener('change',function(){state.filter.jenis=el.fJenis.value;renderTable();});
   el.fQ.addEventListener('input',function(){state.filter.q=el.fQ.value;renderTable();});
-  el.csv.addEventListener('click',exportCsv);
-  el.backup.addEventListener('click',exportBackup);
-  el.restore.addEventListener('click',function(){el.file.click();});
-  el.file.addEventListener('change',function(){importBackup(el.file.files[0]);});
-
-  // rekap ikut berubah kalau dashboard dibuka di beberapa tab
-  window.addEventListener('storage',function(e){if(e.key===KEY){load();if(!state.urutanTouched)suggestSeq();renderAll();}});
 
   renderAll();
+  refresh(false);
+  // segarkan otomatis supaya nomor dari anggota lain ikut terlihat
+  setInterval(function(){if(!document.hidden&&!state.busy)refresh(true);},30000);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&!state.busy)refresh(true);});
 }
-init();
+setup();
 })();
 </script>
 </body>
